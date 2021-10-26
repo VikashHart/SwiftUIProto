@@ -53,6 +53,12 @@ struct ContentView: View {
             .alert(isPresented: $showAlert) {
               Alert(title: Text("Your Score"), message: Text("\(computeScore())"))
             }
+
+            VStack {
+                ColorSlider(value: $rGuess, textColor: .red)
+                ColorSlider(value: $gGuess, textColor: .green)
+                ColorSlider(value: $bGuess, textColor: .blue)
+            }
         }
     }
 }
@@ -60,4 +66,19 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(rGuess: 0.5, gGuess: 0.5, bGuess: 0.5)    }
+}
+
+struct ColorSlider: View {
+    @Binding var value: Double
+    var textColor: Color
+
+    var body: some View {
+        HStack {
+            Text("0")
+                .foregroundColor(textColor)
+            Slider(value: $value)
+            Text("255")
+                .foregroundColor(textColor)
+        }.padding()
+    }
 }
