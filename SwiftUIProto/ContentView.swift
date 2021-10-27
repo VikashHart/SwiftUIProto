@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    let rTarget = Double.random(in: 0..<1)
-    let gTarget = Double.random(in: 0..<1)
-    let bTarget = Double.random(in: 0..<1)
+    @State var rTarget: Double
+    @State var gTarget: Double
+    @State var bTarget: Double
     @State var rGuess: Double
     @State var gGuess: Double
     @State var bGuess: Double
     @State var showAlert = false
 
-    func computeScore() -> Int {
+    private func computeScore() -> Int {
       let rDiff = rGuess - rTarget
       let gDiff = gGuess - gTarget
       let bDiff = bGuess - bTarget
@@ -24,8 +24,28 @@ struct ContentView: View {
       return Int((1.0 - diff) * 100.0 + 0.5)
     }
 
+    func getColorValue() -> Double {
+        return Double.random(in: 0..<1)
+    }
+
+    func resetGame() {
+        rGuess = 0.5
+        gGuess = 0.5
+        bGuess = 0.5
+        rTarget = getColorValue()
+        gTarget = getColorValue()
+        bTarget = getColorValue()
+        showAlert = false
+    }
+
     var body: some View {
         VStack {
+            Button(action: {
+                resetGame()
+            }, label: {
+                Text("New Game")
+            })
+
             HStack {
                 // Target color block
                   VStack {
@@ -65,7 +85,13 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(rGuess: 0.5, gGuess: 0.5, bGuess: 0.5)    }
+        ContentView(rTarget: Double.random(in: 0..<1),
+                    gTarget: Double.random(in: 0..<1),
+                    bTarget: Double.random(in: 0..<1),
+                    rGuess: 0.5,
+                    gGuess: 0.5,
+                    bGuess: 0.5)
+    }
 }
 
 struct ColorSlider: View {
